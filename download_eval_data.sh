@@ -12,5 +12,6 @@ wget https://zenodo.org/record/3841772/files/eval_data_test_ToyCar.zip -P eval_d
 wget https://zenodo.org/record/3841772/files/eval_data_test_ToyConveyor.zip -P eval_data
 wget https://zenodo.org/record/3841772/files/eval_data_test_valve.zip -P eval_data
 
-unzip eval_data\*.zip
-rm eval_data/*.zip
+cd eval_data
+unzip \*.zip 
+rm *.zip

@@ -11,14 +11,14 @@ def reshape_(x):
 
 def get_noise(m, mid, reducenoise, mode):
 	if mode == 'd':
-		path = '../../dev_data/{}/'
+		path = '../../dev_data/'
 	elif mode == 'e':
-		path = '../../eval_data/{}/'
+		path = '../../eval_data/'
 	normal_train_files = os.listdir(path + m +'/train')
 	normal_train_files = [file for file in normal_train_files if int(file.split('_')[2]) == mid and file[-4:] == '.wav']
 	noise = []
 	for sample in normal_train_files[:reducenoise]:
-		y, fs = librosa.load('../../dev_data/'+ m +'/train/'+ sample, sr = 16000)
+		y, fs = librosa.load(path + m +'/train/'+ sample, sr = 16000)
 		noise.append(y)
 	noise = np.mean(noise, axis = 0)
 	return noise
@@ -34,9 +34,9 @@ def read_spectrum(path, noise, reducenoise):
 def get_train(m, mid, noise, reducenoise, mode):
 	X = []
 	if mode == 'd':
-		path = '../../dev_data/{}/'
+		path = '../../dev_data/'
 	elif mode == 'e':
-		path = '../../eval_data/{}/'
+		path = '../../eval_data/'
 	normal_train_files = os.listdir(path + m + '/train')
 	normal_train_files = [file for file in normal_train_files if (int(file.split('_')[2]) == mid and file[-4:] == '.wav')]
 	normal_train_files.sort()
@@ -47,7 +47,7 @@ def get_train(m, mid, noise, reducenoise, mode):
 def get_test(m, mid, noise, reducenoise, mode):
 	X, y = [], []
 	if mode == 'd':
-		path = '../../dev_data/{}/'
+		path = '../../dev_data/'
 		test_files = os.listdir(path + m + '/test')
 		normal_test_files = ([file for file in test_files if (file[0] == 'n' and int(file.split('_')[2]) == mid and file[-4:] == '.wav')])
 		anom_test_files = ([file for file in test_files if (file[0] == 'a' and int(file.split('_')[2]) == mid and file[-4:] == '.wav')])
@@ -61,12 +61,12 @@ def get_test(m, mid, noise, reducenoise, mode):
 			y.append(1)
 		return X, y
 	elif mode == 'e':
-		path = '../../eval_data/{}/'
+		path = '../../eval_data/'
 		test_files = os.listdir(path + m + '/test')
 		test_files = ([file for file in test_files if (int(file.split('_')[1]) == mid and file[-4:] == '.wav')])
 		test_files.sort()
-		for sample in normal_test_files:	
-			X_test.append(np.array(read_spectrum(path + m + '/test/' + sample, noise, reducenoise)))
+		for sample in test_files:	
+			X.append(np.array(read_spectrum(path + m + '/test/' + sample, noise, reducenoise)))
 		return X, test_files
 
 def get_spectrums(machine, mid, reducenoise, mode):
@@ -97,21 +97,21 @@ def get_spectrums(machine, mid, reducenoise, mode):
 			X_test, eval_files = get_test(machine, mid, noise, reducenoise, mode)
 			np.save('saved/'+machine+str(mid)+'_X_train'+file_name, X_train)
 			np.save('saved/'+machine+str(mid)+'_X_test'+file_name, X_test)
-			np.save('saved/'+machine+str(mid)+'_eval_files'+file_name, y_test)
+			np.save('saved/'+machine+str(mid)+'_eval_files'+file_name, eval_files)
 		return X_train, X_test, eval_files
 
 def get_machine_ids(machines, mode):
 	mid_dict = {}
 	if mode == 'd':
-		path = '../../saved_iVectors/ivector_mfcc_100'
+		path = '../../dev_data'
 		folder = 'test'
 		for m in machines:
 			file_list = os.listdir(os.path.join(path, m, folder))
 			id_list = list(set([int(file.split('_')[2]) for file in file_list]))
 			mid_dict[m] = id_list
 	elif mode == 'e':
-		path = '../../saved_iVectors/ivector_mfcc_100'
-		folder = 'test_eval'
+		path = '../../eval_data'
+		folder = 'test'
 		for m in machines:
 			file_list = os.listdir(os.path.join(path, m, folder))
 			id_list = list(set([int(file.split('_')[1]) for file in file_list]))
