@@ -116,7 +116,7 @@ def main(mode):
 
 				anom_scores['file'] = eval_files
 				anom_scores['anomaly_score'] = y_pred_gr
-				anom_scores_ensemble[m][mid]['iv'] = y_pred_gr
+				anom_scores_ensemble[m][mid]['gr'] = y_pred_gr
 
 				submission_file = pd.DataFrame(anom_scores)
 				submission_file.to_csv('../../task2/Tiwari_IITKGP_task2_2/anomaly_score_{}_id_{}.csv'.format(m, mid), header = False, index = False)
