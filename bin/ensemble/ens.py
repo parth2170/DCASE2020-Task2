@@ -120,7 +120,7 @@ def main(mode):
 				anom_scores['anomaly_score'] = y_pred_ens
 
 				submission_file = pd.DataFrame(anom_scores)
-				submission_file.to_csv('../../task2/Tiwari_IITKGP_task2_3/anomaly_score_{}_id_{}.csv'.format(m, mid), header = False, index = False)
+				submission_file.to_csv('../../task2/Tiwari_IITKGP_task2_3/anomaly_score_{}_id_0{}.csv'.format(m, mid), header = False, index = False)
 
 if __name__ == '__main__':
 	n = len(sys.argv)

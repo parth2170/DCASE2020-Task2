@@ -119,7 +119,7 @@ def main(mode):
 				anom_scores_ensemble[m][mid]['gr'] = y_pred_gr
 
 				submission_file = pd.DataFrame(anom_scores)
-				submission_file.to_csv('../../task2/Tiwari_IITKGP_task2_2/anomaly_score_{}_id_{}.csv'.format(m, mid), header = False, index = False)
+				submission_file.to_csv('../../task2/Tiwari_IITKGP_task2_2/anomaly_score_{}_id_0{}.csv'.format(m, mid), header = False, index = False)
 
 		with open('../ensemble/individual_scores/eval/modspec_graph_eval_data.pickle', 'wb') as file:
 			pickle.dump(anom_scores_ensemble, file)
